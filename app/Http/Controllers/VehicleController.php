@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class VehicleController extends Controller
@@ -34,6 +35,7 @@ class VehicleController extends Controller
     }
 
     public function store(Request $request){
+        Log::info($request->all());
         $validator = Validator::make($request->all(),[
             'plate_number' => 'required|string',
             'category' => 'required|string',
