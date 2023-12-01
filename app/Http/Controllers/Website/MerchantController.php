@@ -9,6 +9,28 @@ use Illuminate\Support\Facades\Validator;
 
 class MerchantController extends Controller
 {
+    public function index(){
+        $total = Merchant::count();
+        return view('merchant.index',[
+            'total' => $total,
+        ]);
+    }
+    
+    public function data(Request $request){
+        $query = Merchant::query();
+
+        $query->when($request->search, function($q) use($request){
+            $q->where('name', 'like', '%' . $request->search . '%');
+            $q->orWhere('phone', 'like', '%' . $request->search . '%');
+            $q->orWhere('address', 'like', '%' . $request->search . '%');
+            $q->orWhere('email', 'like', '%' . $request->search . '%');
+        });
+
+        $list = $query->paginate(10);
+
+        return view('merchant.list', compact('list'));
+    }
+
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|unique:merchants',

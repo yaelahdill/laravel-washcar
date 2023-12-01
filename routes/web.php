@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Website\CustomerController;
 use App\Http\Controllers\Website\DashboardController;
+use App\Http\Controllers\Website\MerchantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('dashboard', [DashboardController::class, 'index']);
+
+Route::prefix('customer')->group(function(){
+    Route::get('/',[CustomerController::class, 'index'])->name('customer');
+    Route::get('/data',[CustomerController::class, 'data'])->name('customer.data');
+});
+
+Route::prefix('merchant')->group(function(){
+    Route::get('/',[MerchantController::class, 'index'])->name('merchant');
+    Route::get('/data',[MerchantController::class, 'data'])->name('merchant.data');
+});
