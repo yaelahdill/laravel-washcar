@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MerchantController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VehicleController;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
@@ -37,5 +38,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('account')->group(function(){
         Route::post('/edit-profile', [AccountController::class, 'editProfile']);
         Route::post('/change-password', [AccountController::class, 'changePassword']);
+    });
+
+    Route::prefix('order')->group(function(){
+        Route::post('/get-services', [OrderController::class, 'get_services']);
     });
 });

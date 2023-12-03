@@ -69,6 +69,15 @@
           </li>
 
           <li class="nav-item">
+            <a href="{{ route('banner') }}" class="nav-link {{ ($page_url == "voucher") ? 'active': ''}}">
+              <i class="nav-icon fas fa-percentage"></i>
+              <p>
+                Voucher
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a href="{{ route('banner') }}" class="nav-link {{ ($page_url == "banner") ? 'active': ''}}">
               <i class="nav-icon fas fa-image"></i>
               <p>
