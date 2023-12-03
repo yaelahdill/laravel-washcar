@@ -89,6 +89,45 @@ function curl_post(url, data, redirect = true) {
     return true;
 }
 
+function curl_post_image(url, data, redirect = true) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        beforeSend: function () {
+            disabled_element();
+        },
+        success: function (data) {
+            enable_element();
+            if (data.result == true) {
+                alert_success(data.message);
+                if (redirect) {
+                    if (data.redirect) {
+                        window.setTimeout(function () {
+                            window.location.replace(data.redirect);
+                        }, 1000);
+                    } else {
+                        window.setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    }
+                }
+            } else {
+                alert_error(data.message);
+            }
+        },
+        error: function () {
+            enable_element();
+            alert_error("System Error");
+        },
+    });
+
+    return true;
+}
+
 function alert_success(message) {
     Swal.fire({
         icon: "success",
@@ -103,6 +142,21 @@ function alert_error(message) {
         title: "Error",
         text: message,
     });
+}
+
+function swal_confirm(title, message, url, data) {
+    Swal.fire({
+        title: title,
+        html: message,
+        showCancelButton: true,
+        confirmButtonText: "Submit",
+        cancelButtonText: "Close",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            curl_post(url, data);
+        }
+    });
+    return true;
 }
 
 function disabled_element() {

@@ -23,7 +23,7 @@
     <div class="col-12 col-sm-6 col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Tambah Merchant</h3>
+                <h3 class="card-title">Tambah Layanan</h3>
             </div>
             <div class="card-body">
                 <form method="post">

@@ -48,6 +48,12 @@ class MerchantController extends Controller
             $q->where('merchant_id', $request->merchant_id);
         });
 
+        $query->when($request->search, function($q) use($request){
+            $q->where('id', 'like', '%' . $request->search . '%');
+            $q->orWhere('total', 'like', '%' . $request->search . '%');
+            $q->orWhere('status', 'like', '%' . $request->search . '%');
+        });
+
         $query->when($request->status, function($q) use($request){
             $q->where('status', $request->status);
         });
@@ -86,7 +92,7 @@ class MerchantController extends Controller
     public function update(Request $request){
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:merchants',
-            'name' => 'required|string|unique:merchants,name,except,name',
+            'name' => 'required|string',
             'phone' => 'required|string',
             'address' => 'required|string',
             'city' => 'required|string',
@@ -122,7 +128,7 @@ class MerchantController extends Controller
         return view('merchant.view', [
             'merchant' => $merchant,
             'count_order' => $count_order,
-            'total_order' => $total_order
+            'total_order' => $total_order,
         ]);
     }
 

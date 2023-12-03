@@ -68,6 +68,15 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="{{ route('banner') }}" class="nav-link {{ ($page_url == "banner") ? 'active': ''}}">
+              <i class="nav-icon fas fa-image"></i>
+              <p>
+                Banner
+              </p>
+            </a>
+          </li>
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

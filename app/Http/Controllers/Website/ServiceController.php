@@ -28,6 +28,11 @@ class ServiceController extends Controller
             $q->where('merchant_id', $request->merchant_id);
         });
 
+        $services->when($request->search, function($q) use($request){
+            $q->where('name', 'like', '%' . $request->search . '%');
+            $q->orWhere('description', 'like', '%' . $request->search . '%');
+        });
+
         $services->latest();
 
         $list = $services->paginate(10);
@@ -84,5 +89,26 @@ class ServiceController extends Controller
                 'message' => 'Data gagal disimpan'
             ]);
         }
+    }
+
+    public function destroy(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:services'
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'result' => false,
+                'message' => $validator->errors()->first()
+            ]);
+        }
+
+        $service = Service::find($request->id);
+        $service->delete();
+
+        return response()->json([
+            'result' => true,
+            'message' => 'Berhasil menghapus layanan'
+        ]);
     }
 }

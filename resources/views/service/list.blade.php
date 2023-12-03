@@ -21,9 +21,9 @@
                 <td>{{ $item->estimated_time }}</td>
                 <td>Rp{{ number_format($item->price, 0, '.', '.') }}</td>
                 <td>
-                    <a href="" class="btn btn-primary btn-sm">
-                        <i class="fas fa-eye"></i>
-                    </a>
+                    <button id="delete" class="btn btn-danger btn-sm" data-id="{{ $item->id }}">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </td>
             </tr>
             @empty

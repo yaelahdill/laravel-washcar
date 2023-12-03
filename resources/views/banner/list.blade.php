@@ -4,8 +4,7 @@
             <tr>
                 <th>No</th>
                 <th>Nama</th>
-                <th>Email</th>
-                <th>Nomor Telepon</th>
+                <th>Gambar</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -13,18 +12,17 @@
             @forelse ($list as $item)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->email }}</td>
-                <td>{{ $item->phone }}</td>
+                <td>{{ $item->title }}</td>
+                <td><a href="{{ asset('images/banner/' . $item->image) }}" target="_blank">{{ $item->image }}</a></td>
                 <td>
-                    <a href="{{ route('customer.view', $item) }}" class="btn btn-primary btn-sm">
-                        <i class="fas fa-eye"></i>
-                    </a>
+                    <button id="delete" class="btn btn-danger btn-sm" data-id="{{ $item->id }}">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </td>
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="text-center">No data found</td>
+                <td colspan="4" class="text-center">No data found</td>
             </tr>
             @endforelse
         </tbody>

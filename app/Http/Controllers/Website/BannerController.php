@@ -26,6 +26,7 @@ class BannerController extends Controller
 
         return view('banner.list', compact('list'));
     }
+
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
@@ -39,13 +40,11 @@ class BannerController extends Controller
             ]);
         }
 
-        $image = $request->file('image');
-        $ext = $image->getClientOriginalExtension();
-        $name = rand(100000,999999) . time() . ".{$ext}";
-        $image->save(public_path('images'), $name);
+        $name = time().'.'.$request->image->extension();
+        $request->image->move(public_path('images/banner'), $name);
 
         $banner = Banner::create([
-            'title' => 'required|string',
+            'title' => $request->title,
             'image' => $name
         ]);
 
@@ -69,6 +68,13 @@ class BannerController extends Controller
         }
 
         $banner = Banner::find($request->id);
+
+        //Delete image
+        $image_path = public_path('images/banner/'.$banner->image);
+        if(file_exists($image_path)){
+            unlink($image_path);
+        }
+
         $banner->delete();
 
         return response()->json([

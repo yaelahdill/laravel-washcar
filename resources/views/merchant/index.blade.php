@@ -32,6 +32,7 @@
                     </div>
                     <div class="col-md-12">
                         <button class="btn btn-primary mt-2" id="btn-search">Search</button>
+                        <button class="btn btn-danger mt-2" id="btn-reset">Reset</button>
                     </div>
                 </div>
                 <div id="table" class="mt-4"></div>
@@ -50,6 +51,11 @@
             addTable();
         });
 
+        $('#btn-reset').click(function(){
+            $('#search').val('');
+            addTable();
+        });
+        
         function addTable(){
             const data = {
                 search: $('#search').val()

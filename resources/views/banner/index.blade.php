@@ -4,6 +4,10 @@
     'page_url'=>'banner'
 ])
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+@endsection
+
 @section('content')
 <div class="row">
 
@@ -27,14 +31,15 @@
                 <form>
                     <div class="form-group">
                         <label for="name">Nama Banner</label>
-                        <input type="text" class="form-control" id="name" placeholder="Nama Banner">
+                        <input type="text" class="form-control" name="title" id="title" placeholder="Nama Banner">
                     </div>
                     <div class="form-group">
                         <label for="image">Gambar Banner</label>
-                        <input type="file" class="form-control" id="image" placeholder="Gambar Banner">
+                        <input type="file" class="form-control" name="image" id="image" placeholder="Gambar Banner">
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -44,9 +49,31 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
     $(document).ready(function() {
         addTable();
+
+        $('form').submit(function(e){
+            const data = new FormData(this);
+            const url = '{{ route('banner.store') }}';
+            curl_post_image(url, data);
+
+            return false;
+        });
+
+        $('#table').on('click', '#delete', function(){
+            const id = $(this).data('id');
+            const title = "Hapus Banner";
+            const message = "Apakah anda yakin ingin menghapus banner ini ?";
+            const data = {
+                id: id
+            };
+            const url = '{{ route('banner.destroy') }}';
+            swal_confirm(title, message, url, data);
+
+            return true;
+        });
 
         $('#btn-search').click(function(){
             addTable();
@@ -54,9 +81,9 @@
 
         function addTable(){
             const data = {
-                search: $('#search').val()
+                
             };
-            createTable(data, '{{ route('merchant.data') }}', '#table');
+            createTable(data, '{{ route('banner.data') }}', '#table');
         }
     });
 </script>
