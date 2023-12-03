@@ -2,26 +2,26 @@
     <table class="table table-sm table-bordered table-hover table-nowrap" id="datatable">
         <thead>
             <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>Nomor Telepon</th>
-                <th>Email</th>
-                <th>Alamat</th>
-                <th>Kota</th>
+                <th>Order ID</th>
+                <th>Merchant</th>
+                <th>Layanan</th>
+                <th>Pembayaran</th>
+                <th>Total</th>
+                <th>Status</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody class="list fs-base">
             @forelse ($list as $item)
             <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->phone }}</td>
-                <td>{{ $item->email }}</td>
-                <td>{{ $item->address }}</td>
-                <td>{{ $item->city }}</td>
+                <td>#{{ $item->id }}</td>
+                <td>{{ $item->merchant?->name }}</td>
+                <td>{{ $item->services?->count() }} Layanan</td>
+                <td>{{ $item->payment?->payment_method }}</td>
+                <td>Rp{{ number_format($item->total, 0, '.', '.') }}</td>
+                <td>{{ $item->status }}</td>
                 <td>
-                    <a href="{{ route('merchant.view', $item) }}" class="btn btn-primary btn-sm">
+                    <a href="" class="btn btn-primary btn-sm">
                         <i class="fas fa-eye"></i>
                     </a>
                 </td>

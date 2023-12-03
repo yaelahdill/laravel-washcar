@@ -4,15 +4,24 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Models\Merchant;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class MerchantController extends Controller
 {
+
     public function index(){
         $total = Merchant::count();
         return view('merchant.index',[
             'total' => $total,
+        ]);
+    }
+
+    public function add(){
+        $total = Merchant::count();
+        return view('merchant.add', [
+            'total' => $total
         ]);
     }
     
@@ -29,6 +38,24 @@ class MerchantController extends Controller
         $list = $query->paginate(10);
 
         return view('merchant.list', compact('list'));
+    }
+
+    public function data_order(Request $request){
+        $query = Order::query();
+        $query->with('services','payment');
+
+        $query->when($request->merchant_id, function($q) use($request){
+            $q->where('merchant_id', $request->merchant_id);
+        });
+
+        $query->when($request->status, function($q) use($request){
+            $q->where('status', $request->status);
+        });
+
+        $list = $query->paginate(10);
+
+        return view('merchant.list_order', compact('list'));
+        
     }
 
     public function store(Request $request){
@@ -48,10 +75,10 @@ class MerchantController extends Controller
             ]);
         }
 
-        Merchant::create($request->all());
+        Merchant::create($request->except('csrf_token'));
 
         return response()->json([
-            'result' => false,
+            'result' => true,
             'message' => "Berhasil menambahkan merchant"
         ]);
     }
@@ -85,6 +112,17 @@ class MerchantController extends Controller
         return response()->json([
             'result' => true,
             'message' => "Berhasil memperbarui merchant"
+        ]);
+    }
+
+    public function view(Merchant $merchant){
+        $count_order = Order::where('merchant_id', $merchant->id)->count();
+        $total_order = Order::where('merchant_id', $merchant->id)->sum('total');
+
+        return view('merchant.view', [
+            'merchant' => $merchant,
+            'count_order' => $count_order,
+            'total_order' => $total_order
         ]);
     }
 

@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Service extends Model
+class OrderPayment extends Model
 {
     use HasFactory;
     protected $guarded = [];
 
-    public function merchant(){
-        return $this->belongsTo(Merchant::class);
+    function order()
+    {
+        return $this->belongsTo(Order::class);
     }
 }

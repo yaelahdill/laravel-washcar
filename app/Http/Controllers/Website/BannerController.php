@@ -9,6 +9,23 @@ use Illuminate\Support\Facades\Validator;
 
 class BannerController extends Controller
 {
+    public function index()
+    {
+        $total = Banner::count();
+        return view('banner.index', [
+            'total' => $total
+        ]);
+    }
+
+    public function data(Request $request){
+        $banners = Banner::query();
+
+        $banners->latest();
+
+        $list = $banners->paginate(10);
+
+        return view('banner.list', compact('list'));
+    }
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
