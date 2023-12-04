@@ -42,5 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('order')->group(function(){
         Route::post('/get-services', [OrderController::class, 'get_services']);
+        Route::post('/create', [OrderController::class, 'store']);
+        Route::post('/detail', [OrderController::class, 'detail']);
     });
 });

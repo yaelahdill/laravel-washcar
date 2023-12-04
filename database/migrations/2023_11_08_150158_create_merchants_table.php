@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('email');
             $table->string('city');
             $table->string('opening_hours');
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->timestamps();
         });
     }

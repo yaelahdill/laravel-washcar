@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->integer('discount')->nullable();
             $table->string('start_date');
-            $table->string('end_date');
-            $table->integer('quota')->default(1);
+            $table->string('expired_at');
+            $table->integer('quantity')->default(1);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

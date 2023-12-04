@@ -29,4 +29,24 @@ class Order extends Model
     {
         return $this->hasOne(Merchant::class);
     }
+
+    function vehicle()
+    {
+        return $this->hasOne(OrderVehicle::class);
+    }
+
+    function voucher(){
+        return $this->hasOne(Voucher::class);
+    }
+
+    function showStatus(){
+        return match($this->status){
+            '1' => 'Menunggu Pembayaran',
+            '2' => 'Sudah Dibayar',
+            '3' => 'Sedang Diproses',
+            '4' => 'Selesai',
+            '5' => 'Dibatalkan',
+            default => 'Tidak Diketahui'
+        };
+    }
 }

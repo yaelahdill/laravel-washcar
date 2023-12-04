@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('merchant_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('voucher_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('invoice')->unique();
             $table->string('voucher')->nullable();
             $table->double('subtotal', [12, 2])->default(0);
             $table->double('discount', [12, 2])->default(0);
             $table->double('total', [12, 2])->default(0);
-            $table->string('status')->default('pending');
+            $table->string('status')->default('1');
             $table->timestamps();
         });
     }

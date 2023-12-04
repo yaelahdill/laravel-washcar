@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('service_id')->nullable()->constrained()->onDelete('set null');
-            $table->string('service_name');
-            $table->string('service_type');
-            $table->string('service_description');
-            $table->string('service_estimated_time');
-            $table->integer('service_price')->default(0);
+            $table->string('name');
+            $table->string('type');
+            $table->string('description');
+            $table->string('estimated_time');
+            $table->integer('price')->default(0);
             $table->timestamps();
         });
     }
