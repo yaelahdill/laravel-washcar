@@ -22,7 +22,7 @@ class DashboardController extends Controller
                 ],
                 'banners' => $this->banners(),
                 'merchants' => $this->merchants(),
-                'notifications' => $this->notifications($request->user()->id),
+                // 'notifications' => $this->notifications($request->user()->id),
             ]
         ]);
     }
@@ -39,7 +39,7 @@ class DashboardController extends Controller
             $array[] = [
                 'id' => $banner->id,
                 'title' => $banner->title,
-                'image' => $banner->image,
+                'image' => asset('images/banner/' . $banner->image),
                 'created_at' => $banner->created_at->diffForHumans(),
             ];
         }

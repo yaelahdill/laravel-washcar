@@ -17,6 +17,75 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
+    public function index(Request $request){
+        $query = Order::query();
+        $query->with('merchant','vehicle','services','payment');
+        $query->where('user_id', $request->user()->id);
+
+        $query->when($request->status, function($q) use ($request){
+            $q->where('status', $request->status);
+        });
+        $query->when($request->invoice, function($q) use ($request){
+            $q->where('invoice', 'like', '%'.$request->invoice.'%');
+        });
+
+        $query->latest();
+
+        $list = $query->paginate(10);
+        $array = [];
+
+        foreach($list as $item){
+            $array[] = [
+                'id' => $item->id,
+                'invoice' => $item->invoice,
+                'subtotal' => "Rp" . number_format($item->subtotal, 0, '.', '.'),
+                'total' => "Rp" . number_format($item->total, 0, '.', '.'),
+                'status' => $item->showStatus(),
+                'merchant' => [
+                    'name' => $item->merchant?->name,
+                    'email' => $item->merchant?->email,
+                    'phone' => $item->merchant?->phone,
+                    'address' => $item->merchant?->address,
+                    'city' => $item->merchant?->city,
+                ],
+                'vehicle' => [
+                    'plate_number' => $item->vehicle?->plate_number,
+                    'category' => $item->vehicle?->category,
+                    'size' => $item->vehicle?->size,
+                    'brand' => $item->vehicle?->brand,
+                ],
+                'payment' => [
+                    'method' => $item->payment?->payment_method,
+                    'name' => $item->payment?->payment_name,
+                    'transaction_id' => $item->payment?->transaction_id,
+                ],
+                'services' => $item->services->map(function($service){
+                    return [
+                        'name' => $service->name,
+                        'description' => $service->description,
+                        'estimated_time' => $service->estimated_time,
+                        'price' => $service->price,
+                    ];
+                }),
+                'created_at' => $item->created_at->format('d M Y H:i:s'),
+                'updated_at' => $item->updated_at->format('d M Y H:i:s'),
+            ];
+        }
+
+        return response()->json([
+            'result' => true,
+            'message' => 'ok',
+            'data' => $array,
+            'pagination' => [
+                'current_page' => $list->currentPage(),
+                'last_page' => $list->lastPage(),
+                'total' => $list->total(),
+                'per_page' => $list->perPage(),
+            ]
+        ]);
+
+    }
+
     public function get_services(Request $request){
         $validator = Validator::make($request->all(), [
             'merchant_id' => 'required|exists:merchants,id', 
