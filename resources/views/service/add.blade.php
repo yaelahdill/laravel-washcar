@@ -47,8 +47,8 @@
                         </select>   
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label" for="type">Type</label>
-                        <select class="form-control" id="type">
+                        <label class="col-form-label" for="size">Ukuran Kendaraan</label>
+                        <select class="form-control" id="size">
                             <option value="Kecil">Kecil</option>
                             <option value="Sedang">Sedang</option>
                             <option value="Besar">Besar</option>
@@ -96,7 +96,7 @@
                 merchant_id: $('#merchant_id').val(),
                 name: $('#name').val(),
                 category: $('#category').val(),
-                type: $('#type').val(),
+                size: $('#size').val(),
                 description: $('#description').val(),
                 estimation: $('#estimation').val(),
                 price: $('#price').val()

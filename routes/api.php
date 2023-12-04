@@ -28,6 +28,7 @@ Route::get('/merchants', [MerchantController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/notification', [DashboardController::class, 'notification']);
 
     Route::prefix('vehicle')->group(function(){
         Route::get('/list', [VehicleController::class, 'index']);

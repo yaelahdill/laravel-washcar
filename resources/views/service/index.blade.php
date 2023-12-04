@@ -36,6 +36,14 @@
                         <input type="text" class="form-control" placeholder="Search..." id="search">
                     </div>
                     <div class="col-md-3">
+                        <label for="category">Kendaraan</label>
+                        <select class="form-control" id="category">
+                            <option value="">Semua</option>
+                            <option value="Motor">Motor</option>
+                            <option value="Mobil">Mobil</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
                         <label for="search">Merchant</label>
                         <select class="form-control" id="merchant_id">
                             @foreach($merchants as $row)
@@ -67,6 +75,7 @@
 
         $('#btn-reset').click(function(){
             $('#search').val('');
+            $('#category').val('');
             addTable();
         });
 
@@ -86,7 +95,8 @@
         function addTable(){
             const data = {
                 merchant_id: $('#merchant_id').val(),
-                search: $('#search').val()
+                search: $('#search').val(),
+                category: $('#category').val()
             };
             createTable(data, '{{ route('service.data') }}', '#table');
         }

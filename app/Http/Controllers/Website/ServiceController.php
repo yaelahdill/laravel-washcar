@@ -28,6 +28,10 @@ class ServiceController extends Controller
             $q->where('merchant_id', $request->merchant_id);
         });
 
+        $services->when($request->category, function($q) use($request){
+            $q->where('vehicle_category', $request->category);
+        });
+
         $services->when($request->search, function($q) use($request){
             $q->where('name', 'like', '%' . $request->search . '%');
             $q->orWhere('description', 'like', '%' . $request->search . '%');
@@ -55,7 +59,7 @@ class ServiceController extends Controller
             'merchant_id' => 'required|exists:merchants,id',
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
+            'size' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'estimation' => 'required|string',
             'price' => 'required|string',
@@ -71,8 +75,8 @@ class ServiceController extends Controller
         $service = Service::create([
             'merchant_id' => $request->merchant_id,
             'name' => $request->name,
-            'category' => $request->category,
-            'type' => $request->type,
+            'vehicle_category' => $request->category,
+            'vehicle_size' => $request->size,
             'description' => $request->description,
             'estimated_time' => $request->estimation,
             'price' => str_replace(['Rp', '.', ',', ' '], '', $request->price),

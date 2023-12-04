@@ -35,7 +35,6 @@ class VehicleController extends Controller
     }
 
     public function store(Request $request){
-        Log::info($request->all());
         $validator = Validator::make($request->all(),[
             'plate_number' => 'required|string',
             'category' => 'required|string',

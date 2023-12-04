@@ -117,9 +117,9 @@ class OrderController extends Controller
 
         $services = Service::where([
             'merchant_id' => $request->merchant_id,
-            'vehicle_type' => $vehicle->category,
+            'vehicle_category' => $vehicle->category,
             'vehicle_size' => $vehicle->size
-        ])->get();
+        ])->latest()->get();
         $array = [];
 
         foreach($services as $service){
@@ -129,6 +129,7 @@ class OrderController extends Controller
                 'description' => $service->description,
                 'estimated_time' => $service->estimated_time,
                 'price' => $service->price,
+                'size' => $service->vehicle_size,
             ];
         }
 

@@ -81,7 +81,16 @@ class MerchantController extends Controller
             ]);
         }
 
-        Merchant::create($request->except('csrf_token'));
+        Merchant::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'city' => $request->city,
+            'opening_hours' => $request->opening_hours,
+            'email' => $request->email,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
 
         return response()->json([
             'result' => true,

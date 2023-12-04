@@ -27,6 +27,13 @@ class DashboardController extends Controller
         ]);
     }
 
+    public function notification(Request $request){
+        return response()->json([
+            'result' => true,
+            'data' => $this->notifications($request->user()->id)
+        ]);
+    }
+
     function banners(){
         $query = Banner::query();
 
@@ -62,6 +69,8 @@ class DashboardController extends Controller
                 'address' => $merchant->address,
                 'city' => $merchant->city,
                 'opening_hours' => $merchant->opening_hours,
+                'latitude' => $merchant->latitude,
+                'longitude' => $merchant->longitude,
                 'created_at' => $merchant->created_at->diffForHumans(),
             ];
         }

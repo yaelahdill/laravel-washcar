@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('merchant_id')->constrained()->onDelete('cascade');
-            $table->string('vehicle_type')->default('Motor');
+            $table->string('vehicle_category')->default('Motor');
             $table->string('vehicle_size')->default('Kecil');
             $table->string('name');
             $table->longText('description');

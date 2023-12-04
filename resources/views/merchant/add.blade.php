@@ -29,27 +29,35 @@
                 <form method="post">
                     <div class="form-group">
                         <label class="col-form-label" for="name">Nama</label>
-                        <input type="text" class="form-control" id="name" placeholder="Nama Merchant">
+                        <input type="text" class="form-control" id="name" placeholder="Nama Merchant" required>
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="phone">Nomor Telepon</label>
-                        <input type="number" class="form-control" id="phone" placeholder="Nomor Telepon Merchant">
+                        <input type="number" class="form-control" id="phone" placeholder="Nomor Telepon Merchant" required>
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Email Merchant">
+                        <input type="email" class="form-control" id="email" placeholder="Email Merchant" required>
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="address">Alamat</label>
-                        <textarea class="form-control" rows="4" id="address" placeholder="Alamat Merchant"></textarea>
+                        <textarea class="form-control" rows="4" id="address" placeholder="Alamat Merchant" required></textarea>
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="city">Kota</label>
-                        <input type="text" class="form-control" id="city" placeholder="Kota Merchant">
+                        <input type="text" class="form-control" id="city" placeholder="Kota Merchant" required>
                     </div>
                     <div class="form-group">
                         <label class="col-form-label" for="opening">Jam Operasional</label>
-                        <input type="text" class="form-control" id="opening" placeholder="Contoh : 08:00 - 22:00">
+                        <input type="text" class="form-control" id="opening" placeholder="Contoh : 08:00 - 22:00" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label" for="latitude">Latitude</label>
+                        <input type="text" class="form-control" id="latitude" placeholder="Kordinat Latitude">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label" for="longitude">Longitude</label>
+                        <input type="text" class="form-control" id="longitude" placeholder="Kordinat Longitude">
                     </div>
                     <div class="form-group">
                         <button type="submit" id="submit" class="btn btn-primary">Simpan</button>

@@ -4,7 +4,8 @@
             <tr>
                 <th>No</th>
                 <th>Nama</th>
-                <th>Type</th>
+                <th>Kendaraan</th>
+                <th>Ukuran</th>
                 <th>Description</th>
                 <th>Estimasi</th>
                 <th>Harga</th>
@@ -16,7 +17,8 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $item->name }}</td>
-                <td>{{ $item->type }}</td>
+                <td>{{ $item->vehicle_category }}</td>
+                <td>{{ $item->vehicle_size }}</td>
                 <td>{{ $item->description }}</td>
                 <td>{{ $item->estimated_time }}</td>
                 <td>Rp{{ number_format($item->price, 0, '.', '.') }}</td>
