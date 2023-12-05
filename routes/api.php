@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('vehicle')->group(function(){
         Route::get('/list', [VehicleController::class, 'index']);
         Route::post('/add', [VehicleController::class, 'store']);
+        Route::post('/update', [VehicleController::class, 'update']);
         Route::post('/delete', [VehicleController::class, 'destroy']);
     });
 

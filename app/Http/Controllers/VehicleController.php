@@ -71,6 +71,54 @@ class VehicleController extends Controller
         ]);
     }
 
+    public function update(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|integer',
+            'plate_number' => 'required|string',
+            'category' => 'required|string',
+            'size' => 'required|string',
+            'brand' => 'required|string',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'result' => false,
+                'message' => $validator->errors()->first(),
+            ]);
+        }
+
+        $vehicle = Vehicle::where([
+            'user_id' => $request->user()->id,
+            'id' => $request->id,
+        ])->first();
+        if(!$vehicle){
+            return response()->json([
+                'result' => false,
+                'message' => 'Kendaraan tidak ditemukan',
+            ]);
+        }
+
+        $vehicle->update([
+            'plate_number' => $request->plate_number,
+            'category' => $request->category,
+            'size' => $request->size,
+            'brand' => $request->brand,
+        ]);
+
+        return response()->json([
+            'result' => true,
+            'message' => 'Kendaraan berhasil di update',
+            'data' => [
+                'id' => $vehicle->id,
+                'plate_number' => $vehicle->plate_number,
+                'category' => $vehicle->category,
+                'size' => $vehicle->size,
+                'brand' => $vehicle->brand,
+                'created_at' => $vehicle->created_at->diffForHumans(),
+            ],
+        ]);
+    }
+
     public function destroy(Request $request){
         $validator = Validator::make($request->all(),[
             'id' => 'required|integer',
