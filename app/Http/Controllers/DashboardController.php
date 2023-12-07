@@ -34,6 +34,13 @@ class DashboardController extends Controller
         ]);
     }
 
+    public function list_merchant(Request $request){
+        return response()->json([
+            'result' => true,
+            'data' => $this->merchants()
+        ]);
+    }
+
     function banners(){
         $query = Banner::query();
 
