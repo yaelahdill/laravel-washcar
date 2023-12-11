@@ -22,12 +22,12 @@ class Order extends Model
 
     function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     function merchant()
     {
-        return $this->hasOne(Merchant::class);
+        return $this->belongsTo(Merchant::class);
     }
 
     function vehicle()

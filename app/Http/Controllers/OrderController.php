@@ -42,12 +42,19 @@ class OrderController extends Controller
                 'subtotal' => "Rp" . number_format($item->subtotal, 0, '.', '.'),
                 'total' => "Rp" . number_format($item->total, 0, '.', '.'),
                 'status' => $item->showStatus(),
+                'voucher' => [
+                    'code' => $item->voucher,
+                    'discount' => "Rp" . number_format($item->discount, 0, '.', '.'),
+                ],
                 'merchant' => [
                     'name' => $item->merchant?->name,
                     'email' => $item->merchant?->email,
                     'phone' => $item->merchant?->phone,
                     'address' => $item->merchant?->address,
                     'city' => $item->merchant?->city,
+                    'latitude' => $item->merchant?->latitude,
+                    'longitude' => $item->merchant?->longitude,
+                    'opening_hours' => $item->merchant?->opening_hours,
                 ],
                 'vehicle' => [
                     'plate_number' => $item->vehicle?->plate_number,
@@ -356,7 +363,7 @@ class OrderController extends Controller
 
     public function detail(Request $request){
         $validator = Validator::make($request->all(), [
-            'id' => 'required|integer|exists:orders,id',
+            'invoice' => 'required|string|exists:orders,invoice',
         ]);
 
         if($validator->fails()){
@@ -367,7 +374,7 @@ class OrderController extends Controller
         }
 
         $order = Order::with('user','merchant','services','payment','vehicle')->where([
-            'id' => $request->id,
+            'invoice' => $request->invoice,
             'user_id' => $request->user()->id
         ])->first();
         if(!$order){
@@ -382,9 +389,16 @@ class OrderController extends Controller
             'message' => 'ok',
             'data' => [
                 'invoice' => $order->invoice,
-                'status' => $order->status,
-                'subtotal' => $order->subtotal,
-                'total' => $order->total,
+                'status' => $order->showStatus(),
+                'subtotal' => "Rp" . number_format($order->subtotal, 0, '.', '.'),
+                'total' => "Rp" . number_format($order->total, 0, '.', '.'),
+                'discount' => "Rp" . number_format($order->discount, 0, '.', '.'),
+                'created_at' => $order->created_at->format('d M Y H:i:s'),
+                'customer' => [
+                    'name' => $order->user?->name,
+                    'email' => $order->user?->email,
+                    'phone' => $order->user?->phone,
+                ],
                 'voucher' => [
                     'code' => $order->voucher,
                     'discount' => $order->discount,
