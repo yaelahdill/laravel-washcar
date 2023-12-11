@@ -265,7 +265,7 @@ class OrderController extends Controller
                         'result' => false,
                         'message' => 'Voucher tidak dapat digunakan di merchant ini'
                     ]);
-                } else if($voucher->status !== '1'){
+                } else if(!$voucher->is_active){
                     return response()->json([
                         'result' => false,
                         'message' => 'Voucher tidak dapat digunakan'
