@@ -49,7 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('order')->group(function(){
         Route::get('/list', [OrderController::class, 'index']);
         Route::post('/get-services', [OrderController::class, 'get_services']);
-        Route::post('/create', [OrderController::class, 'store']);
+        Route::post('/checkout', [OrderController::class, 'store']);
         Route::post('/detail', [OrderController::class, 'detail']);
+        Route::post('/check-voucher', [OrderController::class, 'checkVoucher']);
     });
 });

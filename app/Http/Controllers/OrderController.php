@@ -13,6 +13,7 @@ use App\Models\Voucher;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
@@ -140,6 +141,65 @@ class OrderController extends Controller
         ]);
     }
 
+    public function checkVoucher(Request $request){
+        $validator = Validator::make($request->all(), [
+            'merchant_id' => 'required|exists:merchants,id', 
+            'voucher' => 'required|string',
+        ],[
+            'merchant_id.required' => 'ID merchant tidak boleh kosong',
+            'merchant_id.exists' => 'Merchant tidak ditemukan',
+            'voucher.required' => 'Voucher tidak boleh kosong',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'result' => false,
+                'message' => $validator->errors()->first()
+            ]);
+        }
+
+        $voucher = Voucher::with('usage')->where([
+            'merchant_id' => $request->merchant_id,
+            'code' => $request->voucher,
+        ])->first();
+        if(!$voucher){
+            return response()->json([
+                'result' => false,
+                'message' => 'Voucher tidak ditemukan'
+            ]);
+        } else if(!$voucher->is_active){
+            return response()->json([
+                'result' => false,
+                'message' => 'Voucher sudah tidak aktif'
+            ]);
+        } else if($voucher->start_date > date('Y-m-d')){
+            return response()->json([
+                'result' => false,
+                'message' => 'Voucher Belum dapat digunakan'
+            ]);
+        } else if($voucher->expired_at < date('Y-m-d')){
+            return response()->json([
+                'result' => false,
+                'message' => 'Voucher telah kadaluarsa'
+            ]);
+        } else if($voucher->quantity <= $voucher->usage?->count()){
+            return response()->json([
+                'result' => false,
+                'message' => 'Voucher telah habis'
+            ]);
+        } else {
+            return response()->json([
+                'result' => true,
+                'message' => 'Voucher berhasil digunakan [ ' . number_format($voucher->discount, 0, '.', '.') . ' ])',
+                'data' => [
+                    'name' => $voucher->name,
+                    'code' => $voucher->code,
+                    'discount' => $voucher->discount,
+                ]
+            ]);
+        }
+    }
+
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'merchant_id' => 'required|integer|exists:merchants,id',
@@ -182,6 +242,7 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
+            $voucher = null;
             //Validation Voucher
             if(!empty($request->voucher)){
                 $voucher = Voucher::with('usage')->where([
@@ -229,8 +290,8 @@ class OrderController extends Controller
                 'user_id' => $request->user()->id,
                 'merchant_id' => $request->merchant_id,
                 'invoice' => $invoice,
-                'voucher_id' => $voucher?->id,
-                'voucher' => $voucher?->code,
+                'voucher_id' => ($voucher) ? $voucher->id : null,
+                'voucher' => ($voucher) ? $voucher->code : null,
                 'discount' => $discount,
                 'status' => '1',
             ]);
@@ -242,7 +303,7 @@ class OrderController extends Controller
                     'order_id' => $order->id,
                     'service_id' => $service->id,
                     'name' => $service->name,
-                    'type' => $service->type,
+                    'type' => $service->vehicle_size,
                     'description' => $service->description,
                     'estimated_time' => $service->estimated_time,
                     'price' => $service->price,
@@ -257,7 +318,7 @@ class OrderController extends Controller
                 'total' => $total,
             ]);
 
-            OrderPayment::create([
+            $payment = OrderPayment::create([
                 'order_id' => $order->id,
                 'payment_method' => $request->payment_method,
             ]);
@@ -275,12 +336,20 @@ class OrderController extends Controller
             return response()->json([
                 'result' => true,
                 'message' => 'Sukses membuat order',
+                'data' => [
+                    'invoice' => $invoice,
+                    'merchant' => $merchant,
+                    'vehicle' => $vehicle,
+                    'services' => $services,
+                    'payment' => $payment,
+                ]
             ]);
         } catch (Exception $e){
+            Log::error($e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile());
             DB::rollback();
             return response()->json([
                 'result' => false,
-                'message' => $e->getMessage()
+                'message' => $e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile()
             ]);
         }
     }
