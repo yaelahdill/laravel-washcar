@@ -51,6 +51,7 @@ Route::prefix('voucher')->group(function(){
     Route::get('/data', [VoucherController::class, 'data'])->name('voucher.data');
     Route::get('/add', [VoucherController::class, 'add'])->name('voucher.add');
     Route::post('/store', [VoucherController::class, 'store'])->name('voucher.store');
+    Route::post('/delete', [VoucherController::class, 'destroy'])->name('voucher.destroy');
 });
 
 Route::prefix('banner')->group(function(){

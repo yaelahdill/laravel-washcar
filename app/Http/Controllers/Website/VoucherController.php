@@ -23,7 +23,7 @@ class VoucherController extends Controller
         });
 
         $query->when($request->status, function($q) use($request){
-            $q->where('status', $request->status);
+            $q->where('is_active', $request->status);
         });
 
         $query->latest();
@@ -72,6 +72,27 @@ class VoucherController extends Controller
         return response()->json([
             'result' => true,
             'message' => 'Voucher berhasil ditambahkan',
+            'redirect' => route('voucher')
+        ]);
+    }
+
+    public function destroy(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:vouchers,id'
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'result' => false,
+                'message' => $validator->errors()->first()
+            ]);
+        }
+
+        Voucher::find($request->id)->delete();
+
+        return response()->json([
+            'result' => true,
+            'message' => 'Voucher berhasil dihapus',
             'redirect' => route('voucher')
         ]);
     }

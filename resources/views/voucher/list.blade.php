@@ -10,6 +10,7 @@
                 <th>Diskon</th>
                 <th>Tanggal Mulai</th>
                 <th>Tanggal Berakhir</th>
+                <th>Status</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -24,6 +25,13 @@
                 <td>Rp{{ number_format($item->discount, 0, '.', '.') }}</td>
                 <td>{{ $item->start_date }}</td>
                 <td>{{ $item->expired_at }}</td>
+                <td>
+                    @if ($item->is_active == 1)
+                    <span class="badge badge-success">Aktif</span>
+                    @else
+                    <span class="badge badge-danger">Tidak Aktif</span>
+                    @endif
+                </td>
                 <td>
                     <button id="delete" class="btn btn-danger btn-sm" data-id="{{ $item->id }}">
                         <i class="fas fa-trash"></i>

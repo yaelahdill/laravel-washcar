@@ -32,6 +32,7 @@
                     </div>                
                     <div class="col-md-12">
                         <button class="btn btn-primary mt-2" id="btn-search">Search</button>
+                        <button class="btn btn-secondary mt-2" id="btn-reset">Reset</button>
                     </div>
                 </div>
                 <div id="table" class="mt-4"></div>
@@ -50,18 +51,24 @@
 
         $('#table').on('click', '#delete', function(){
             const id = $(this).data('id');
-            const title = "Hapus Banner";
-            const message = "Apakah anda yakin ingin menghapus banner ini ?";
+            const title = "Hapus Voucher";
+            const message = "Apakah anda yakin ingin menghapus voucher ini ?";
             const data = {
                 id: id
             };
-            const url = '{{ route('banner.destroy') }}';
+            const url = '{{ route('voucher.destroy') }}';
             swal_confirm(title, message, url, data);
 
             return true;
         });
 
         $('#btn-search').click(function(){
+            addTable();
+        });
+
+        $('#btn-reset').click(function(){
+            $('#search').val('');
+            $('#status').val('');
             addTable();
         });
 
