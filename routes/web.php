@@ -5,6 +5,7 @@ use App\Http\Controllers\Website\CustomerController;
 use App\Http\Controllers\Website\DashboardController;
 use App\Http\Controllers\Website\MerchantController;
 use App\Http\Controllers\Website\ServiceController;
+use App\Http\Controllers\Website\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('dashboard', [DashboardController::class, 'index']);
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::prefix('customer')->group(function(){
     Route::get('/',[CustomerController::class, 'index'])->name('customer');
@@ -43,6 +44,13 @@ Route::prefix('service')->group(function(){
     Route::get('/add', [ServiceController::class, 'add'])->name('service.add');
     Route::post('/store', [ServiceController::class, 'store'])->name('service.store');
     Route::post('/delete', [ServiceController::class, 'destroy'])->name('service.destroy');
+});
+
+Route::prefix('voucher')->group(function(){
+    Route::get('/', [VoucherController::class, 'index'])->name('voucher');
+    Route::get('/data', [VoucherController::class, 'data'])->name('voucher.data');
+    Route::get('/add', [VoucherController::class, 'add'])->name('voucher.add');
+    Route::post('/store', [VoucherController::class, 'store'])->name('voucher.store');
 });
 
 Route::prefix('banner')->group(function(){

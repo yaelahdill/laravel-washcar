@@ -99,6 +99,10 @@
             }
         });
 
+        const start_date = moment().startOf('month').format('YYYY-MM-DD');
+        const end_date = moment().endOf('month').format('YYYY-MM-DD');
+        $('#date').val(start_date + ' - ' + end_date);
+
         addTable();
 
         $('#btn-search').click(function(){

@@ -58,6 +58,7 @@ class MerchantController extends Controller
             $q->where('status', $request->status);
         });
 
+        $query->latest();
         $list = $query->paginate(10);
 
         return view('merchant.list_order', compact('list'));

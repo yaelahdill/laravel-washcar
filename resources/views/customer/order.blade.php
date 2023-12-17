@@ -2,6 +2,7 @@
     <table class="table table-sm table-bordered table-hover table-nowrap" id="datatable">
         <thead>
             <tr>
+                <th>Tanggal</th>
                 <th>Order ID</th>
                 <th>Merchant</th>
                 <th>Layanan</th>
@@ -14,12 +15,17 @@
         <tbody class="list fs-base">
             @forelse ($list as $item)
             <tr>
+                <td>{{ $item->created_at->format('Y-m-d H:i:s') }}</td>
                 <td>#{{ $item->id }}</td>
                 <td>{{ $item->merchant?->name }}</td>
-                <td>{{ $item->services?->count() }} Layanan</td>
+                <td>
+                    @foreach ($item->services as $service)
+                    <li>{{ $service->name }}</li>
+                    @endforeach
+                </td>
                 <td>{{ $item->payment?->payment_method }}</td>
                 <td>Rp{{ number_format($item->total, 0, '.', '.') }}</td>
-                <td>{{ $item->status }}</td>
+                <td>{{ $item->showStatus() }}</td>
                 <td>
                     <a href="" class="btn btn-primary btn-sm">
                         <i class="fas fa-eye"></i>

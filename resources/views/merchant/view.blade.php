@@ -166,6 +166,10 @@
             }
         });
 
+        const start_date = moment().startOf('month').format('YYYY-MM-DD');
+        const end_date = moment().endOf('month').format('YYYY-MM-DD');
+        $('#date').val(start_date + ' - ' + end_date);
+
         addTable();
 
         $('#btn-search').click(function(){
@@ -193,7 +197,8 @@
             const data = {
                 merchant_id: '{{ $merchant->id }}',
                 search: $('#search').val(),
-                date: $('#date').val()
+                date: $('#date').val(),
+                status: $('#status').val(),
             };
             createTable(data, '{{ route('merchant.data_order') }}', '#table');
         }
