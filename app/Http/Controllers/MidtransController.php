@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class MidtransController extends Controller
 {
     public function index(Request $request){
-        $server_key = "SB-Mid-server-kL11um1zH0m_Hgy-ldnTVbec";
+        $server_key = "SB-Mid-server-znssIwVQbni3L6FBfZBovjbu";
         $is_production = false;
         $api_url = $is_production ? 'https://app.midtrans.com/snap/v1/transactions' : 'https://app.sandbox.midtrans.com/snap/v1/transactions';
 
