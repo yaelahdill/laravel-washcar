@@ -116,7 +116,17 @@
                                 @endforeach
                             </td>
                             <td>{{ $row->created_at->format('Y-m-d H:i:s') }}</td>
-                            <td>{{ $row->showStatus() }}</td>
+                            <td>
+                                @if($row->status == 1 || $row->status == 5)
+                                <span class="badge badge-warning">{{ $row->showStatus() }}</span>
+                                @elseif($row->status == 2 || $row->status == 3)
+                                <span class="badge badge-info">{{ $row->showStatus() }}</span>
+                                @elseif($row->status == 4)
+                                <span class="badge badge-success">{{ $row->showStatus() }}</span>
+                                @else
+                                <span class="badge badge-danger">{{ $row->showStatus() }}</span>
+                                @endif
+                            </td>
                             <td>Rp{{ number_format($row->total, 0, '.', '.') }}</td>
                         </tr>
                         @endforeach

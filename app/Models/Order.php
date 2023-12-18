@@ -36,7 +36,7 @@ class Order extends Model
     }
 
     function voucher(){
-        return $this->hasOne(Voucher::class);
+        return $this->belongsTo(Voucher::class);
     }
 
     function showStatus(){

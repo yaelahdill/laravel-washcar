@@ -69,7 +69,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="{{ route('banner') }}" class="nav-link {{ ($page_url == "voucher") ? 'active': ''}}">
+            <a href="{{ route('voucher') }}" class="nav-link {{ ($page_url == "voucher") ? 'active': ''}}">
               <i class="nav-icon fas fa-percentage"></i>
               <p>
                 Voucher
@@ -82,6 +82,15 @@
               <i class="nav-icon fas fa-image"></i>
               <p>
                 Banner
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ route('order') }}" class="nav-link {{ ($page_url == "order") ? 'active': ''}}">
+              <i class="nav-icon fas fa-history"></i>
+              <p>
+                Order
               </p>
             </a>
           </li>

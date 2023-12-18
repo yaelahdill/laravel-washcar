@@ -4,6 +4,7 @@ use App\Http\Controllers\Website\BannerController;
 use App\Http\Controllers\Website\CustomerController;
 use App\Http\Controllers\Website\DashboardController;
 use App\Http\Controllers\Website\MerchantController;
+use App\Http\Controllers\Website\OrderController;
 use App\Http\Controllers\Website\ServiceController;
 use App\Http\Controllers\Website\VoucherController;
 use Illuminate\Support\Facades\Route;
@@ -59,4 +60,10 @@ Route::prefix('banner')->group(function(){
     Route::get('/data', [BannerController::class, 'data'])->name('banner.data');
     Route::post('/add', [BannerController::class, 'store'])->name('banner.store');
     Route::post('/delete', [BannerController::class, 'destroy'])->name('banner.destroy');
+});
+
+Route::prefix('order')->group(function(){
+    Route::get('/', [OrderController::class, 'index'])->name('order');
+    Route::get('/data', [OrderController::class, 'data'])->name('order.data');
+    Route::get('/view/{order}', [OrderController::class, 'view'])->name('order.view');
 });
