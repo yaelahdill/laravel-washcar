@@ -69,7 +69,7 @@ class MidtransController extends Controller
             if($order){
                 if($status == 200){
                     $order->update([
-                        'status' => 4
+                        'status' => 2
                     ]);
                     $order->payment?->update([
                         'transaction_id' => $transaction_id,
