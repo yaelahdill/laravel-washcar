@@ -28,6 +28,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/merchants', [MerchantController::class, 'index']);
 
 Route::post('/midtrans/charge', [MidtransController::class, 'index']);
+Route::post('/midtrans/webhook', [MidtransController::class, 'webhook']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
