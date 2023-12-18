@@ -42,7 +42,7 @@ class MidtransController extends Controller
         
     }
 
-    public function midtrans(Request $request){
+    public function webhook(Request $request){
         $merchant_id = "G798473603";
         $client_key = "SB-Mid-client-pR3ZkmoavvHGWBbN";
         $server_key = "SB-Mid-server-znssIwVQbni3L6FBfZBovjbu";
